@@ -1733,7 +1733,11 @@ class AkshareFetcher(BaseFetcher):
                         import time as _time
                         api_start = _time.time()
 
-                        df = ak.stock_hk_spot_em()
+                        df = _akshare_call_with_timeout(
+                            ak.stock_hk_spot_em,
+                            timeout=60,
+                            call_name="stock_hk_spot_em",
+                        )
 
                         api_elapsed = _time.time() - api_start
                         logger.info(
@@ -1788,7 +1792,11 @@ class AkshareFetcher(BaseFetcher):
             import time as _time
             api_start = _time.time()
 
-            df_spot = ak.stock_hk_spot()
+            df_spot = _akshare_call_with_timeout(
+                ak.stock_hk_spot,
+                timeout=180,
+                call_name="stock_hk_spot",
+            )
 
             api_elapsed = _time.time() - api_start
             logger.info(f"[API返回] ak.stock_hk_spot 成功: 返回 {len(df_spot)} 只港股, 耗时 {api_elapsed:.2f}s")
